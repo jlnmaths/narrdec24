@@ -72,9 +72,16 @@ class Player(BasePlayer):
         choices=['Yes', 'No'])
     finishexptime = models.IntegerField(initial=0) #end of experiment
     startdemotime = models.IntegerField(initial=0) #start of demographics survey
+    prolific_id = models.StringField(default=str(" "))
 
 
+    HintHelpful = likertScale(
+        'Did you think the hints were helpful? Please use a scale from 0 to 10, where a 0 means you found them "not helpful at all" and a 10 means you found them "very helpful".',
+        '', '', 10)
 
+    HintMisleading = likertScale(
+        'Did you think the hints were misleading? Please use a scale from 0 to 10, where a 0 means you believe they were "not misleading at all" and a 10 means you believe they were "very misleading".',
+        '', '', 10)
 
     TimeSurvey = likertScale(
         'How willing are you to give up something today in order to get more of it in the future? Please use a scale from 0 to 10, where a 0 means you are "completely unwilling to give up something today for more tomorrow" and a 10 means you are "very willing to give up something today for more tomorrow".',
@@ -96,9 +103,13 @@ class Demographics(Page):
         player.startdemotime = int(time.time())
         return dict()
 
+    @staticmethod
+    def before_next_page(player: Player):
+        player.prolific_id = player.participant.label
+
 class Risk_Narratives(Page):
     form_model = 'player'
-    form_fields = ['TimeSurvey', 'RiskSurvey', 'AltruismSurvey', 'simplicity_1', 'simplicity_2', 'dataverbal_1', 'dataverbal_2']
+    form_fields = ['RiskSurvey', 'HintHelpful', 'HintMisleading', 'simplicity_1', 'simplicity_2', 'dataverbal_1', 'dataverbal_2']
 
 class ResultsWaitPage(WaitPage):
     pass

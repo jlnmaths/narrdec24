@@ -101,7 +101,7 @@ class Player(BasePlayer):
         choices=['True ', 'False'])
     quizs5 = models.StringField(label="You want to convince the receiver that behind the question mark (?)",
         choices=['...there is a 0.', '...there is a 1.'])
-    quizs6 = models.StringField(label="True or false? 50% of the time, Receivers get paid $5 if is a 1 hidden behind the question mark (?), independent of their assessment.",
+    quizs6 = models.StringField(label="True or false? 50% of the time, Receivers get paid $5 if there is a 1 hidden behind the question mark (?), independent of their assessment.",
                                choices=['True ', 'False'])
 
 # functions
@@ -235,20 +235,20 @@ class Sender(Page):
 
         if lr == 0: #in auswertung, replace 1-state with harmless hint and 2-state with hint, stoch and det are the same.
             if lr_hint == 0:
-                u = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation.', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation.']
-                d = ['If E'+str(plus)+' equals 1, the main observation also equals 1.', 'Almost always, if E'+str(plus)+' equals 1, the main observation also equals 1.']
+                u = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).']
+                d = ['If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'Almost always, if E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
 
             else:
-                d = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation.', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation.']
-                u = ['If E'+str(plus)+' equals 1, the main observation also equals 1.', 'Almost always, if E'+str(plus)+' equals 1, the main observation also equals 1.']
+                d = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).']
+                u = ['If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'Almost always, if E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
         else:
             if lr_hint == 0:
-                u = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation.', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation.']
-                d = ['Almost always, if E'+str(plus)+' equals 1, the main observation also equals 1.', 'If E'+str(plus)+' equals 1, the main observation also equals 1.']
+                u = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).']
+                d = ['Almost always, if E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
 
             else:
-                d = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation.', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation.']
-                u = ['Almost always, if E'+str(plus)+' equals 1, the main observation also equals 1.', 'If E'+str(plus)+' equals 1, the main observation also equals 1.']
+                d = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).']
+                u = ['Almost always, if E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
 
         return dict(
             hb=hb,
@@ -396,7 +396,7 @@ class Stage1_H(Page):
                 keyword_2 = 'equals 1, the main observation also always equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
-                keyword_2 = 'on the main observable.'
+                keyword_2 = 'on the main observation.'
         if y == 1:
             player.table = 'det_plus'
             if player.treatment == 2 or player.treatment == 5:
@@ -404,7 +404,7 @@ class Stage1_H(Page):
                 keyword_2 = 'equals 1, the main observation also always equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
-                keyword_2 = 'on the main observable.'
+                keyword_2 = 'on the main observation.'
         if y == 2:
             player.table = 'det_minus'
             if player.treatment == 2 or player.treatment == 5:
@@ -412,7 +412,7 @@ class Stage1_H(Page):
                 keyword_2 = 'equals 1, the main observation also always equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
-                keyword_2 = 'on the main observable.'
+                keyword_2 = 'on the main observation.'
         if y == 3:
             player.table = 'stoch_balanced'
             if player.treatment == 2 or player.treatment == 5:
@@ -420,7 +420,7 @@ class Stage1_H(Page):
                 keyword_2 = 'equals 1, the main observation also always equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
-                keyword_2 = 'on the main observable.'
+                keyword_2 = 'on the main observation.'
         if y == 4:
             player.table = 'stoch_plus'
             if player.treatment == 2 or player.treatment == 5:
@@ -428,7 +428,7 @@ class Stage1_H(Page):
                 keyword_2 = 'equals 1, the main observation also always equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
-                keyword_2 = 'on the main observable.'
+                keyword_2 = 'on the main observation.'
         if y == 5:
             player.table = 'stoch_minus'
             if player.treatment == 2 or player.treatment == 5:
@@ -436,7 +436,7 @@ class Stage1_H(Page):
                 keyword_2 = 'equals 1, the main observation also always equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
-                keyword_2 = 'on the main observable.'
+                keyword_2 = 'on the main observation.'
 
         # randomize column order
 
@@ -545,72 +545,72 @@ class Stage2_H(Page):
             player.table = 'det_balanced'
             if player.treatment == 2 or player.treatment == 5:
                 keyword = 'If'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation also always equals 1.'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
                 exkeyword = 'If'
-                exkeyword_2 = 'equals 1, the main observation also always equals 1.'
+                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
             else:
                 keyword = 'If'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
         if y == 1:
             player.table = 'det_plus'
             if player.treatment == 2 or player.treatment == 5:
                 keyword = 'If'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation also always equals 1.'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
                 exkeyword = 'If'
-                exkeyword_2 = 'equals 1, the main observation also always equals 1.'
+                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
             else:
                 keyword = 'If'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
         if y == 2:
             player.table = 'det_minus'
             if player.treatment == 2 or player.treatment == 5:
                 keyword = 'If'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation also always equals 1.'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
                 exkeyword = 'If'
-                exkeyword_2 = 'equals 1, the main observation also always equals 1.'
+                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
             else:
                 keyword = 'If'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
         if y == 3:
             player.table = 'stoch_balanced'
             if player.treatment == 2 or player.treatment == 5:
                 keyword = 'Almost always, if'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation also always equals 1.'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
                 exkeyword = 'Almost always, if'
-                exkeyword_2 = 'equals 1, the main observation also always equals 1.'
+                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
             else:
                 keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
         if y == 4:
             player.table = 'stoch_plus'
             if player.treatment == 2 or player.treatment == 5:
                 keyword = 'Almost always, if'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation also always equals 1.'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
                 exkeyword = 'Almost always, if'
-                exkeyword_2 = 'equals 1, the main observation also always equals 1.'
+                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
             else:
                 keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
         if y == 5:
             player.table = 'stoch_minus'
             if player.treatment == 2 or player.treatment == 5:
                 keyword = 'Almost always, if'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation also always equals 1.'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
                 exkeyword = 'Almost always, if'
-                exkeyword_2 = 'equals 1, the main observation also always equals 1.'
+                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
             else:
                 keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
 

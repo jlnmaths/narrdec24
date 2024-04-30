@@ -7,6 +7,7 @@ SESSION_CONFIGS = [
         display_name="Mental_Models_Experiment",
         app_sequence=['main_survey', 'results_and_demographics'],
         num_demo_participants=250,
+        completionlink='https://app.prolific.co/submissions/complete?cc=11111111'
     )
 ]
 
