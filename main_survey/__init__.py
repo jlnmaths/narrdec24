@@ -93,7 +93,7 @@ class Player(BasePlayer):
                                choices=['True', 'False'])
     quizs1 = models.StringField(label='True or false? The relationship between the main observation and explanatory variable is different from row to row.',
         choices=['True ', 'False'])
-    quizs2 = models.StringField(label="True or false? The events in the 7. row have definitely happened after the events in the first row.",
+    quizs2 = models.StringField(label="True or false? The events in the 7th row have definitely happened after the events in the first row.",
         choices=['True ', 'False'])
     quizs3 = models.StringField(label="True or false? The hints can be true, but do not have to be.",
         choices=['True ', 'False'])
@@ -146,6 +146,8 @@ class Instructions(Page):
     @staticmethod
     def is_displayed(player: Player):
         return player.subsession.round_number == 1 and player.treatment < 6
+
+    @staticmethod
     def vars_for_template(player: Player):
         import time
         player.startexptime = int(time.time())
@@ -153,12 +155,14 @@ class Instructions(Page):
 
 class Instructions_s(Page):
     @staticmethod
-    def is_displayed(player: Player):
-        return player.subsession.round_number == 1 and player.treatment > 5
     def vars_for_template(player: Player):
         import time
         player.startexptime = int(time.time())
         return dict()
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.subsession.round_number == 1 and player.participant.treatment > 5
 
 
 class Instructions_Sen(Page):
@@ -1049,7 +1053,7 @@ class Quiz_betw_H(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.round_number == 7 and (player.participant.treatment == 2 or player.treatment == 1 or player.participant.treatment == 5 or player.treatment == 4)
+        return player.subsession.round_number == 7 and (player.participant.treatment == 2 or player.participant.treatment == 1 or player.participant.treatment == 5 or player.participant.treatment == 4)
 
 class Captcha(Page):
     @staticmethod
