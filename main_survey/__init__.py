@@ -145,7 +145,16 @@ def set_payoff(player: Player):
 class Instructions(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.round_number == 1
+        return player.subsession.round_number == 1 and player.treatment < 6
+    def vars_for_template(player: Player):
+        import time
+        player.startexptime = int(time.time())
+        return dict()
+
+class Instructions_s(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.subsession.round_number == 1 and player.treatment > 5
     def vars_for_template(player: Player):
         import time
         player.startexptime = int(time.time())
@@ -1065,4 +1074,4 @@ class Results(Page):
     pass
 
 
-page_sequence = [Instructions, Captcha, Disqual, Instructions_Sen, Instructions_rec_NH, Instructions_rec_H, Instructions_payoff_A, Instructions_payoff_B, Instructions_sen_pay_A, Instructions_sen_pay_B,Quiz_Sen_A, Quiz_Sen_B, Quiz_A_NH, Quiz_B_NH, Quiz_A_H, Quiz_B_H, Sender, Stage1_NH, Stage1_H, Instr_betw_NH, Instr_betw_H, Quiz_betw_NH, Quiz_betw_H, Stage2_NH, Stage2_H, Certainty, Certainty_Sender, Hint_Constr]
+page_sequence = [Instructions, Instructions_s, Captcha, Disqual, Instructions_Sen, Instructions_rec_NH, Instructions_rec_H, Instructions_payoff_A, Instructions_payoff_B, Instructions_sen_pay_A, Instructions_sen_pay_B,Quiz_Sen_A, Quiz_Sen_B, Quiz_A_NH, Quiz_B_NH, Quiz_A_H, Quiz_B_H, Sender, Stage1_NH, Stage1_H, Instr_betw_NH, Instr_betw_H, Quiz_betw_NH, Quiz_betw_H, Stage2_NH, Stage2_H, Certainty, Certainty_Sender, Hint_Constr]
