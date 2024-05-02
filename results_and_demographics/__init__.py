@@ -106,10 +106,7 @@ class Demographics(Page):
 class Risk_Narratives(Page):
     form_model = 'player'
     form_fields = ['RiskSurvey', 'HintHelpful', 'HintMisleading', 'simplicity_1', 'simplicity_2', 'dataverbal_1', 'dataverbal_2']
-    @staticmethod
-    def before_next_page(player: Player, timeout_happened):
-        player.prolific_id = player.participant.label
-        
+
 class ResultsWaitPage(WaitPage):
     pass
 

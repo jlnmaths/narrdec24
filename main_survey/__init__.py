@@ -143,6 +143,11 @@ def set_payoff(player: Player):
 
 # PAGES
 class Instructions(Page):
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        player.prolific_id = player.participant.label
+
     @staticmethod
     def is_displayed(player: Player):
         return player.subsession.round_number == 1 and player.treatment < 6
@@ -154,11 +159,20 @@ class Instructions(Page):
         return dict()
 
 class Instructions_s(Page):
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        player.prolific_id = player.participant.label
+
     @staticmethod
     def vars_for_template(player: Player):
         import time
         player.startexptime = int(time.time())
         return dict()
+
+    @staticmethod
+    def before_next_page(player: Player, timeout_happened):
+        player.prolific_id = player.participant.label
 
     @staticmethod
     def is_displayed(player: Player):
