@@ -68,7 +68,7 @@ class Player(BasePlayer):
         widget=widgets.RadioSelect,
         label= "Which table do you want to send the receiver?"
     )
-
+    prolific_id = models.StringField(default=str(" "))
     table = models.StringField()
     row_order = models.StringField()
     column_order = models.StringField()
@@ -159,7 +159,6 @@ class Instructions(Page):
         return dict()
 
 class Instructions_s(Page):
-
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         player.prolific_id = player.participant.label

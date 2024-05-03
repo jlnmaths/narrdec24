@@ -72,7 +72,6 @@ class Player(BasePlayer):
         choices=['Yes', 'No'])
     finishexptime = models.IntegerField(initial=0) #end of experiment
     startdemotime = models.IntegerField(initial=0) #start of demographics survey
-    prolific_id = models.StringField(default=str(" "))
 
 
     HintHelpful = likertScale(
