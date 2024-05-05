@@ -61,12 +61,12 @@ class Player(BasePlayer):
     n_selection = models.StringField(
         choices=['Hint 1 under the selected table', 'Hint 2 under the selected table'],
         widget=widgets.RadioSelect,
-        label= "Which hint do you want to send the receiver?"
+        label= "Which hint do you want to send to the receiver?"
     )
     t_selection = models.StringField(
         choices=['Table 1', 'Table 2'],
         widget=widgets.RadioSelect,
-        label= "Which table do you want to send the receiver?"
+        label= "Which table do you want to send to the receiver?"
     )
     prolific_id = models.StringField(default=str(" "))
     table = models.StringField()
