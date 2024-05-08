@@ -59,7 +59,7 @@ class Player(BasePlayer):
     startquiztime = models.IntegerField(initial=0)
     startquiz2time = models.IntegerField(initial=0)
     n_selection = models.StringField(
-        choices=['Hint 1 under the selected table', 'Hint 2 under the selected table'],
+        choices=['Hint 1 for the selected table', 'Hint 2 for the selected table'],
         widget=widgets.RadioSelect,
         label= "Which hint do you want to send to the receiver?"
     )
@@ -99,7 +99,7 @@ class Player(BasePlayer):
         choices=['True ', 'False'])
     quizs4 = models.StringField(label="You have to choose a hint.",
         choices=['True ', 'False'])
-    quizs5 = models.StringField(label="You want to convince the receiver that behind the question mark (?)",
+    quizs5 = models.StringField(label="You want to convince the receiver that behind the question mark (?)...",
         choices=['...there is a 0.', '...there is a 1.'])
     quizs6 = models.StringField(label="True or false? 50% of the time, Receivers get paid $5 if there is a 1 hidden behind the question mark (?), independent of their assessment.",
                                choices=['True ', 'False'])
@@ -108,7 +108,7 @@ class Player(BasePlayer):
 def creating_session(subsession: Subsession):
     import itertools
     import random
-    treatments = itertools.cycle([0, 1, 2, 3, 4, 5]) #6,7]) #NNH, NHH, NH, BNH, BHH, BH, SenNB, SenB
+    treatments = itertools.cycle([0, 1, 2, 3, 4, 5, 6,7]) #NNH, NHH, NH, BNH, BHH, BH, SenNB, SenB
     for player in subsession.get_players():
         player.participant.treatment = next(treatments)
         player.treatment = player.participant.treatment
@@ -262,19 +262,19 @@ class Sender(Page):
         if lr == 0: #in auswertung, replace 1-state with harmless hint and 2-state with hint, stoch and det are the same.
             if lr_hint == 0:
                 u = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).']
-                d = ['If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'Almost always, if E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
+                d = ['The following always holds: If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'The following almost always holds: If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
 
             else:
                 d = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).']
-                u = ['If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'Almost always, if E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
+                u = ['The following always holds: If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'The following almost always holds: If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
         else:
             if lr_hint == 0:
                 u = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).']
-                d = ['Almost always, if E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
+                d = ['The following almost always holds: If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'The following always holds: If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
 
             else:
                 d = ['In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).', 'In the historical data, it looks like there could be an effect of E'+str(plus)+' on the main observation (Y).']
-                u = ['Almost always, if E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
+                u = ['The following almost always holds: If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.', 'The following always holds: If E'+str(plus)+' equals 1, the main observation (Y) also equals 1.']
 
         return dict(
             hb=hb,
