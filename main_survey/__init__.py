@@ -127,18 +127,94 @@ def creating_session(subsession: Subsession):
         player.sord = player.participant.sorder
         player.ord_2 = player.participant.order_2
 def set_payoff(player: Player):
-    if player.subsession.round_number == player.payround:
-        if int(player.true_y) == 1:
-            prob = 1- (1 - player.assessment/100)*(1 - player.assessment/100)
-        else:
-            prob = 1 - (player.assessment/100)*(player.assessment/100)
-        player.prob = prob
-        if player.participant.treatment < 6:
+    if player.participant.treatment < 6:
+        if player.subsession.round_number == player.payround:
+            if int(player.true_y) == 1:
+                prob = 1- (1 - player.assessment/100)*(1 - player.assessment/100)
+            else:
+                prob = 1 - (player.assessment/100)*(player.assessment/100)
+            player.prob = prob
             pay = float((3*np.random.choice([0,1], 1, p=[1-prob, prob])[0])) +1.6 #assessment based payment
-        if player.participant.treatment == 3 or player.participant.treatment == 4 or player.participant.treatment == 5:
-            if np.random.choice([0,1], 1, p=[0.5,0.5])[0] == 0:
-                pay = float(3*player.participant.true_y) +1.6 #bonus based payment
-        player.payoff = pay
+            if player.participant.treatment == 3 or player.participant.treatment == 4 or player.participant.treatment == 5:
+                if np.random.choice([0,1], 1, p=[0.5,0.5])[0] == 0:
+                    pay = float(3*player.participant.true_y) +1.6 #bonus based payment
+            player.payoff = pay
+    if player.participant.treatment > 5:
+        rnd = player.payround % 3
+        if player.subsession.round_number == rnd:
+            pay_b_h_d_n = [0]
+            pay_b_h_d_p = [0]
+            pay_b_h_d_m = [0]
+            pay_b_h_s_n = [0]
+            pay_b_h_s_p = [0]
+            pay_b_h_s_m = [0]
+            pay_b_s_d_n = [0]
+            pay_b_s_d_p = [0]
+            pay_b_s_d_m = [0]
+            pay_b_s_s_n = [0]
+            pay_b_s_s_p = [0]
+            pay_b_s_s_m = [0]
+            pay_a_h_d_n = [0]
+            pay_a_h_d_p = [0]
+            pay_a_h_d_m = [0]
+            pay_a_h_s_n = [0]
+            pay_a_h_s_p = [0]
+            pay_a_h_s_m = [0]
+            pay_a_s_d_n = [0]
+            pay_a_s_d_p = [0]
+            pay_a_s_d_m = [0]
+            pay_a_s_s_n = [0]
+            pay_a_s_s_p = [0]
+            pay_a_s_s_m = [0]
+            if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'balanced':
+                player.payoff = np.random.permutation(pay_a_h_d_n)[0]
+            if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'balanced':
+                player.payoff = np.random.permutation(pay_b_h_d_n)[0]
+            if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'plus':
+                player.payoff = np.random.permutation(pay_a_h_d_p)[0]
+            if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'plus':
+                player.payoff = np.random.permutation(pay_b_h_d_p)[0]
+            if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'minus':
+                player.payoff = np.random.permutation(pay_a_h_d_m)[0]
+            if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'minus':
+                player.payoff = np.random.permutation(pay_b_h_d_m)[0]
+            if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'balanced':
+                player.payoff = np.random.permutation(pay_a_h_s_n)[0]
+            if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'balanced':
+                player.payoff = np.random.permutation(pay_b_h_s_n)[0]
+            if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'plus':
+                player.payoff = np.random.permutation(pay_a_h_s_p)[0]
+            if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'plus':
+                player.payoff = np.random.permutation(pay_b_h_s_p)[0]
+            if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'minus':
+                player.payoff = np.random.permutation(pay_a_h_s_m)[0]
+            if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'minus':
+                player.payoff = np.random.permutation(pay_b_h_s_m)[0]
+            if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'balanced':
+                player.payoff = np.random.permutation(pay_a_s_d_n)[0]
+            if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'balanced':
+                player.payoff = np.random.permutation(pay_b_s_d_n)[0]
+            if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'plus':
+                player.payoff = np.random.permutation(pay_a_s_d_p)[0]
+            if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'plus':
+                player.payoff = np.random.permutation(pay_b_s_d_p)[0]
+            if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'minus':
+                player.payoff = np.random.permutation(pay_a_s_d_m)[0]
+            if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'minus':
+                player.payoff = np.random.permutation(pay_b_s_d_m)[0]
+            if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'balanced':
+                player.payoff = np.random.permutation(pay_a_s_s_n)[0]
+            if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'balanced':
+                player.payoff = np.random.permutation(pay_b_s_s_n)[0]
+            if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'plus':
+                player.payoff = np.random.permutation(pay_a_s_s_p)[0]
+            if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'plus':
+                player.payoff = np.random.permutation(pay_b_s_s_p)[0]
+            if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'minus':
+                player.payoff = np.random.permutation(pay_a_s_s_m)[0]
+            if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'minus':
+                player.payoff = np.random.permutation(pay_b_s_s_m)[0]
+
 
 
 # PAGES
@@ -295,6 +371,23 @@ class Sender(Page):
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
         import time
+        if ('1' in player.t_selection) and (player.det_stoch_order == 0):
+            player.t_selection = 'det'
+        if ('1' in player.t_selection) and (player.det_stoch_order == 1):
+            player.t_selection = 'stoch'
+        if ('2' in player.t_selection) and (player.det_stoch_order == 0):
+            player.t_selection = 'stoch'
+        if ('2' in player.t_selection) and (player.det_stoch_order == 1):
+            player.t_selection = 'det'
+        if ('1' in player.n_selection) and (player.state_order == 0):
+            player.t_selection = 'harmless'
+        if ('1' in player.n_selection) and (player.state_order == 1):
+            player.t_selection = 'strong'
+        if ('2' in player.n_selection) and (player.state_order == 0):
+            player.t_selection = 'strong'
+        if ('2' in player.n_selection) and (player.state_order == 1):
+            player.t_selection = 'harmless'
+        set_payoff(player)
         player.finishtime = int(time.time())
 
 
@@ -414,48 +507,48 @@ class Stage1_H(Page):
         if y == 0:
             player.table = 'det_balanced'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'If'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observation.'
         if y == 1:
             player.table = 'det_plus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'If'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observation.'
         if y == 2:
             player.table = 'det_minus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'If'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observation.'
         if y == 3:
             player.table = 'stoch_balanced'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observation.'
         if y == 4:
             player.table = 'stoch_plus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observation.'
         if y == 5:
             player.table = 'stoch_minus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observation.'
@@ -566,73 +659,73 @@ class Stage2_H(Page):
         if y == 0:
             player.table = 'det_balanced'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'If'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
-                exkeyword = 'If'
-                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also equals 1.'
+                exkeyword = 'The following always holds: If'
+                exkeyword_2 = 'equals 1, the main observation (Y) also equals 1.'
             else:
-                keyword = 'If'
-                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'equals 1, the main observation (Y) also equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
         if y == 1:
             player.table = 'det_plus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'If'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
-                exkeyword = 'If'
-                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also equals 1.'
+                exkeyword = 'The following always holds: If'
+                exkeyword_2 = 'equals 1, the main observation (Y) also equals 1.'
             else:
-                keyword = 'If'
-                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'equals 1, the main observation (Y) also equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
         if y == 2:
             player.table = 'det_minus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'If'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
-                exkeyword = 'If'
-                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also equals 1.'
+                exkeyword = 'The following always holds: If'
+                exkeyword_2 = 'equals 1, the main observation (Y) also equals 1.'
             else:
-                keyword = 'If'
-                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'equals 1, the main observation (Y) also equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
         if y == 3:
             player.table = 'stoch_balanced'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'Almost always, if'
+                keyword = 'The following almost always holds: If'
                 keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
-                exkeyword = 'Almost always, if'
-                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                exkeyword = 'The following almost always holds: If'
+                exkeyword_2 = 'equals 1, the main observation (Y) also equals 1.'
             else:
-                keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'equals 1, the main observation (Y) also equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
         if y == 4:
             player.table = 'stoch_plus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'Almost always, if'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
-                exkeyword = 'Almost always, if'
-                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also equals 1.'
+                exkeyword = 'The following almost always holds: If'
+                exkeyword_2 = 'equals 1, the main observation (Y) also equals 1.'
             else:
-                keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'equals 1, the main observation (Y) also equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
         if y == 5:
             player.table = 'stoch_minus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'Almost always, if'
-                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also always equals 1.'
-                exkeyword = 'Almost always, if'
-                exkeyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'and E' +str(joinloc) +' both equal 1 at the same time, the main observation (Y) also equals 1.'
+                exkeyword = 'The following almost always holds: If'
+                exkeyword_2 = 'equals 1, the main observation (Y) also equals 1.'
             else:
-                keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation (Y) also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'equals 1, the main observation (Y) also equals 1.'
                 exkeyword = 'In the historical data, it looks like there could be an effect of'
                 exkeyword_2 = 'on the main observable.'
 
@@ -827,48 +920,48 @@ class Stage2_NH(Page):
         if y == 0:
             player.table = 'det_balanced'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'If'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observable.'
         if y == 1:
             player.table = 'det_plus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'If'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observable.'
         if y == 2:
             player.table = 'det_minus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'If'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observable.'
         if y == 3:
             player.table = 'stoch_balanced'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observable.'
         if y == 4:
             player.table = 'stoch_plus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observable.'
         if y == 5:
             player.table = 'stoch_minus'
             if player.treatment == 2 or player.treatment == 5:
-                keyword = 'Almost always, if'
-                keyword_2 = 'equals 1, the main observation also always equals 1.'
+                keyword = 'The following almost always holds: If'
+                keyword_2 = 'equals 1, the main observation also equals 1.'
             else:
                 keyword = 'In the historical data, it looks like there could be an effect of'
                 keyword_2 = 'on the main observable.'
