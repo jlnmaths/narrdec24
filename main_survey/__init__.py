@@ -87,7 +87,7 @@ class Player(BasePlayer):
         choices=['True', 'False'])
     quiz4 = models.StringField(label="True or false? You have to assess the probability that a 1 or a 0 is hidden behind the question mark (?).",
         choices=['True', 'False'])
-    quiz5 = models.StringField(label="True or false? With a probability of 50%, you receive a payoff of $5 if there is a 1 hidden behind the question mark (?).",
+    quiz5 = models.StringField(label="True or false? With a probability of 50%, you receive a payoff of $4.6 if there is a 1 hidden behind the question mark (?).",
                                choices=['True', 'False'])
     quiz6 = models.StringField(label="True or false? You have to decide between additional data and a hint.",
                                choices=['True', 'False'])
@@ -101,7 +101,7 @@ class Player(BasePlayer):
         choices=['True ', 'False'])
     quizs5 = models.StringField(label="You want to convince the receiver that behind the question mark (?)...",
         choices=['...there is a 0.', '...there is a 1.'])
-    quizs6 = models.StringField(label="True or false? 50% of the time, Receivers get paid $5 if there is a 1 hidden behind the question mark (?), independent of their assessment.",
+    quizs6 = models.StringField(label="True or false? 50% of the time, Receivers get paid $4.6 if there is a 1 hidden behind the question mark (?), independent of their assessment.",
                                choices=['True ', 'False'])
 
 # functions
@@ -134,10 +134,10 @@ def set_payoff(player: Player):
             prob = 1 - (player.assessment/100)*(player.assessment/100)
         player.prob = prob
         if player.participant.treatment < 6:
-            pay = float((4*np.random.choice([0,1], 1, p=[1-prob, prob])[0])) +1 #assessment based payment
+            pay = float((3*np.random.choice([0,1], 1, p=[1-prob, prob])[0])) +1.6 #assessment based payment
         if player.participant.treatment == 3 or player.participant.treatment == 4 or player.participant.treatment == 5:
             if np.random.choice([0,1], 1, p=[0.5,0.5])[0] == 0:
-                pay = float(4*player.participant.true_y) +1 #bonus based payment
+                pay = float(3*player.participant.true_y) +1.6 #bonus based payment
         player.payoff = pay
 
 
