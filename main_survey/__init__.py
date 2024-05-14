@@ -463,53 +463,53 @@ def set_payoff(player: Player):
                            100.0, 50.0, 100.0, 100.0, 90.0, 80.0]
 
             if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'balanced':
-                player.payoff = 1+2*(np.random.permutation(pay_a_h_d_n)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_h_d_n)[0])/100
             if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'balanced':
-                player.payoff = 1+2*(np.random.permutation(pay_b_h_d_n)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_h_d_n)[0])/100
             if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'plus':
-                player.payoff = 1+2*(np.random.permutation(pay_a_h_d_p)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_h_d_p)[0])/100
             if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'plus':
-                player.payoff = 1+2*(np.random.permutation(pay_b_h_d_p)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_h_d_p)[0])/100
             if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'minus':
-                player.payoff = 1+2*(np.random.permutation(pay_a_h_d_m)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_h_d_m)[0])/100
             if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'det' and player.table == 'minus':
-                player.payoff = 1+2*(np.random.permutation(pay_b_h_d_m)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_h_d_m)[0])/100
             if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'balanced':
-                player.payoff = 1+2*(np.random.permutation(pay_a_h_s_n)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_h_s_n)[0])/100
             if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'balanced':
-                player.payoff = 1+2*(np.random.permutation(pay_b_h_s_n)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_h_s_n)[0])/100
             if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'plus':
-                player.payoff = 1+2*(np.random.permutation(pay_a_h_s_p)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_h_s_p)[0])/100
             if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'plus':
-                player.payoff = 1+2*(np.random.permutation(pay_b_h_s_p)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_h_s_p)[0])/100
             if player.treatment == 6 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'minus':
-                player.payoff = 1+2*(np.random.permutation(pay_a_h_s_m)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_h_s_m)[0])/100
             if player.treatment == 7 and player.n_selection == 'harmless' and player.t_selection == 'stoch' and player.table == 'minus':
-                player.payoff = 1+2*(np.random.permutation(pay_b_h_s_m)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_h_s_m)[0])/100
             if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'balanced':
-                player.payoff = 1+2*(np.random.permutation(pay_a_s_d_n)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_s_d_n)[0])/100
             if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'balanced':
-                player.payoff = 1+2*(np.random.permutation(pay_b_s_d_n)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_s_d_n)[0])/100
             if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'plus':
-                player.payoff = 1+2*(np.random.permutation(pay_a_s_d_p)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_s_d_p)[0])/100
             if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'plus':
-                player.payoff = 1+2*(np.random.permutation(pay_b_s_d_p)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_s_d_p)[0])/100
             if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'minus':
-                player.payoff = 1+2*(np.random.permutation(pay_a_s_d_m)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_s_d_m)[0])/100
             if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'det' and player.table == 'minus':
-                player.payoff = 1+2*(np.random.permutation(pay_b_s_d_m)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_s_d_m)[0])/100
             if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'balanced':
-                player.payoff = 1+2*(np.random.permutation(pay_a_s_s_n)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_s_s_n)[0])/100
             if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'balanced':
-                player.payoff = 1+2*(np.random.permutation(pay_b_s_s_n)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_s_s_n)[0])/100
             if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'plus':
-                player.payoff = 1+2*(np.random.permutation(pay_a_s_s_p)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_s_s_p)[0])/100
             if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'plus':
-                player.payoff = 1+2*(np.random.permutation(pay_b_s_s_p)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_s_s_p)[0])/100
             if player.treatment == 6 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'minus':
-                player.payoff = 1+2*(np.random.permutation(pay_a_s_s_m)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_a_s_s_m)[0])/100
             if player.treatment == 7 and player.n_selection == 'strong' and player.t_selection == 'stoch' and player.table == 'minus':
-                player.payoff = 1+2*(np.random.permutation(pay_b_s_s_m)[0])/100
+                player.payoff = 2+1.5*(np.random.permutation(pay_b_s_s_m)[0])/100
 
 
 
