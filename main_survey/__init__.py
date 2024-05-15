@@ -108,7 +108,7 @@ class Player(BasePlayer):
 def creating_session(subsession: Subsession):
     import itertools
     import random
-    treatments = itertools.cycle([7]) #itertools.cycle([0, 0, 0,  1, 1, 2, 3, 3, 3, 4, 5, 5])
+    treatments = itertools.cycle([0,0,3,3,1]) #itertools.cycle([0, 0, 0,  1, 1, 2, 3, 3, 3, 4, 5, 5])
     for player in subsession.get_players():
         player.participant.treatment = next(treatments)
         player.treatment = player.participant.treatment
