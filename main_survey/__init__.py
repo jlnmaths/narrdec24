@@ -140,7 +140,7 @@ def set_payoff(player: Player):
                     pay = float(2.75*player.participant.true_y) +2.75 #bonus based payment
             player.payoff = pay
     if player.participant.treatment > 5:
-        rnd = player.payround % 3
+        rnd = (player.payround % 3)+1
         if player.subsession.round_number == rnd:
             pay_a_h_d_n = [80.0, 40.0, 75.0, 100.0, 85.0, 90.0, 90.0, 80.0, 90.0, 75.0, 90.0, 100.0, 70.0, 90.0, 1.0,
                            90.0, 90.0, 83.0, 70.0, 75.0, 60.0, 0.0, 70.0, 50.0, 80.0, 45.0, 0.0, 50.0, 50.0, 20.0, 80.0,
