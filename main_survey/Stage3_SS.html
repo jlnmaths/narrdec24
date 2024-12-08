@@ -81,27 +81,50 @@
   .hiddens {
     display: none;
   }
+
 </style>
 <script>
-function toggleDataVisibility() {
-    var hidden = document.querySelectorAll('.hidden');
-    for (var i = 0; i < hidden.length; i++) {
-      hidden[i].style.display = "table-row";
-    }
+function toggleSignalVisibility() {
+    var textDiv5 = document.getElementById("textDiv5");
+    var radioDiv = document.getElementById("txtrow");
+
     liveSend(1);
-  }
 
-
-  function toggleTextVisibility() {
-    var textDiv2 = document.getElementById("textDiv2");
-    var radioDiv = document.getElementById("radioDiv");
-
-    liveSend(2);
-
-    textDiv2.style.display = textDiv2.style.display === "none" ? "block" : "none";
+    textDiv5.style.display = textDiv5.style.display === "none" ? "block" : "none";
     radioDiv.style.display = radioDiv.style.display === "none" ? "block" : "none";
     document.getElementById("toggleTextButton").style.display = "none";
+    document.getElementById("toggleTextButton3").style.display = "none";
+    document.getElementById("toggleTextButton4").style.display = "none";
   }
+
+
+  function toggleTextVisibility(index) {
+    var textDiv2 = document.getElementById("textDiv2");
+    var textDiv3 = document.getElementById("textDiv3");
+    var textDiv4 = document.getElementById("textDiv4");
+    var radioDiv = document.getElementById("btnrow");
+
+    if (index === 2) {
+    textDiv2.style.display = textDiv2.style.display === "none" ? "block" : "none";
+    liveSend(22);
+    }
+    if (index === 3) {
+    textDiv3.style.display = textDiv3.style.display === "none" ? "block" : "none";
+    liveSend(23);
+
+    }
+    if (index === 4) {
+    textDiv4.style.display = textDiv4.style.display === "none" ? "block" : "none";
+    liveSend(24);
+    }
+
+    radioDiv.style.display = radioDiv.style.display === "none" ? "block" : "none";
+    document.getElementById("toggleTextButton").style.display = "none";
+    document.getElementById("toggleTextButton3").style.display = "none";
+    document.getElementById("toggleTextButton4").style.display = "none";
+  }
+
+
 function generateRandomSequence() {
     var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     var sequence = "";
@@ -146,18 +169,44 @@ function generateRandomSequence() {
       var challengeSection = document.getElementById("challengeSection");
       challengeSection.style.display = "none";
       if (index === 1) {
-        var moreData = document.getElementById("btnrow");
-        var moreText = document.getElementById("txtrow");
+        var moreData = document.getElementById("toggleSignalButton");
+        var moreNarr = document.getElementById("txtcol");
         moreData.style.display = "none";
-        moreText.style.display = "none";
-        toggleDataVisibility();
+        moreNarr.style.display = "none";
+        toggleSignalVisibility();
       }
       if (index === 2) {
         var moreTextButton = document.getElementById("toggleTextButton");
-        var moreData = document.getElementById("btnrow");
-        moreData.style.display = "none";
+        var moreTextButton3 = document.getElementById("toggleTextButton3");
+        var moreTextButton4 = document.getElementById("toggleTextButton4");
+        var moreData = document.getElementById("toggleSignalButton");
         moreTextButton.style.display = "none";
-        toggleTextVisibility();
+        moreTextButton3.style.display = "none";
+        moreTextButton4.style.display = "none";
+        moreData.style.display = "none";
+        toggleTextVisibility(2);
+      }
+      if (index === 3) {
+        var moreTextButton = document.getElementById("toggleTextButton");
+        var moreTextButton3 = document.getElementById("toggleTextButton3");
+        var moreTextButton4 = document.getElementById("toggleTextButton4");
+        var moreData = document.getElementById("toggleSignalButton");
+        moreTextButton.style.display = "none";
+        moreTextButton3.style.display = "none";
+        moreTextButton4.style.display = "none";
+        moreData.style.display = "none";
+        toggleTextVisibility(3);
+      }
+      if (index === 4) {
+        var moreTextButton = document.getElementById("toggleTextButton");
+        var moreTextButton3 = document.getElementById("toggleTextButton3");
+        var moreTextButton4 = document.getElementById("toggleTextButton4");
+        var moreData = document.getElementById("toggleSignalButton");
+        moreTextButton.style.display = "none";
+        moreTextButton3.style.display = "none";
+        moreTextButton4.style.display = "none";
+        moreData.style.display = "none";
+        toggleTextVisibility(4);
       }
     } else {
       var clicks = document.getElementById("mistakes");
@@ -272,7 +321,10 @@ function generateRandomSequence() {
     </div>
     <div class="row" id="btnrow">
       <div class="column">
-        <button type="button" id="toggleDataButton" onclick="startChallenge(1)">More data</button>
+        <button type="button" id="toggleSignalButton" onclick="startChallenge(1)">See signal ({{ acc }} % accuracy)</button>
+        <p id="textDiv5" style="display: none;"> Signal: The ball is {{ signal }} (accuracy: {{ acc }} %).
+                        <div class="ball" id="ball"></div>
+        </p>
       </div>
     </div>
     <div class="row" id="challengeSection">
@@ -282,13 +334,25 @@ function generateRandomSequence() {
       <button type = "button" id="submitButton">Check answer</button>
     </div>
     <div class="row" id="txtrow">
-      <div class="column">
+      <p id="intr">See what another participant thought:</p>
+      <div class="column" id="txtcol">
         <div class="text">
-          <button type="button" id="toggleTextButton" onclick="startChallenge(2)">See hint</button>
-          <p id="textDiv2" style="display: none;"> {{ keyword }} E{{ plus }} {{ keyword_2 }} </p>
+          <button type="button" id="toggleTextButton" onclick="startChallenge(2)">Hint pro 0</button>
         </div>
-
       </div>
+      <div class="column" id="txtcol">
+        <div class="text">
+          <button type="button" id="toggleTextButton3" onclick="startChallenge(3)">Hint pro 1</button>
+        </div>
+      </div>
+      <div class="column" id="txtcol">
+        <div class="text">
+          <button type="button" id="toggleTextButton4" onclick="startChallenge(4)">Hint pro 50/50</button>
+        </div>
+      </div>
+      <p id="textDiv2" style="display: none;"> {{ keyword_2 }} </p>
+      <p id="textDiv3" style="display: none;"> {{ keyword_3 }} </p>
+      <p id="textDiv4" style="display: none;"> {{ keyword_4 }} </p>
     </div>
     <div class="row">
       <div class="column">

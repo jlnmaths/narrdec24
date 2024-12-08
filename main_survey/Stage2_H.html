@@ -273,27 +273,15 @@ function generateRandomSequence() {
 
       </div>
     </div>
-    <div class="row" id="btnrow">
-      <div class="column">
-        <button type="button" id="toggleDataButton" onclick="startChallenge(1)">More data</button>
-      </div>
-    </div>
-    <div class="row" id="challengeSection">
-      <h2>CAPTCHA: Please enter these letters in reverse order!</h2>
-      <p id="challengeText"></p>
-      <input type="text" id="inputField">
-      <button type = "button" id="submitButton">Check answer</button>
-    </div>
     <div class="row" id="txtrow">
       <div class="column">
         <div class="text">
-          <p>{{ exkeyword }} E{{ plus }} {{ exkeyword_2 }}</p>
+          <p>{{ exkeyword }}</p>
         </div>
       </div>
       <div class="column" id="txtcol">
         <div class="text">
-          <button type="button" id="toggleTextButton" onclick="startChallenge(2)">Second hint</button>
-          <p id="textDiv2" style="display: none;"> {{ keyword }} E{{ plus }} {{ keyword_2 }} </p>
+          <p> {{ keyword }}</p>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 {{ block title }}
-    Phase 1
+    Phase 2
 {{ endblock }}
 {{ block content }}
 
@@ -56,6 +56,7 @@
   input[type="text"], input[type="radio"] {
     margin-bottom: 10px;
     max-width: 100%;
+
   }
 
   table {
@@ -77,7 +78,110 @@
   .hidden {
     display: none;
   }
+
+  .ball {
+    margin-top: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: {{ signalcss }};
+    display: none;
+  }
+
+  .hiddens {
+    display: none;
+  }
+
 </style>
+<script>
+function toggleSignalVisibility() {
+    var textDiv3 = document.getElementById("textDiv3");
+    var radioDiv = document.getElementById("txtrow");
+    var ballDiv = document.getElementById("ball");
+    liveSend(1);
+
+    textDiv3.style.display = textDiv3.style.display === "none" ? "block" : "none";
+    radioDiv.style.display = radioDiv.style.display === "none" ? "block" : "none";
+    document.getElementById("txtrow").style.display = "none";
+  }
+
+
+  function toggleTextVisibility() {
+    var textDiv2 = document.getElementById("textDiv2");
+    var radioDiv = document.getElementById("btnrow");
+
+    liveSend(2);
+
+    textDiv2.style.display = textDiv2.style.display === "none" ? "block" : "none";
+    radioDiv.style.display = radioDiv.style.display === "none" ? "block" : "none";
+    document.getElementById("btnrow").style.display = "none";
+  }
+
+
+function generateRandomSequence() {
+    var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var sequence = "";
+
+    for (var i = 0; i < 5; i++) {
+      var randomIndex = Math.floor(Math.random() * characters.length);
+      sequence += characters.charAt(randomIndex);
+    }
+
+    return sequence;
+  }
+
+  function startChallenge(index) {
+    var sequence = generateRandomSequence();
+    var challengeSection = document.getElementById("challengeSection");
+    var challengeText = document.getElementById("challengeText");
+    var inputField = document.getElementById("inputField");
+    var submitButton = document.getElementById("submitButton");
+
+    if (index === 1) {
+      liveSend(3);
+    }
+    if (index === 2) {
+      liveSend(4);
+    }
+
+    alert("To see the desired additional information, please solve the CAPTCHA below!");
+    challengeText.textContent = sequence;
+    inputField.value = "";
+    challengeSection.style.display = "block";
+    submitButton.onclick = function () {
+      checkAnswer(sequence, index);
+    };
+  }
+
+  function checkAnswer(expectedSequence, index) {
+    var inputField = document.getElementById("inputField");
+    var userSequence = inputField.value;
+
+    if (userSequence.toUpperCase() === expectedSequence.split('').reverse().join('')) {
+      alert("Correct! The desired additional information is displayed.");
+      var challengeSection = document.getElementById("challengeSection");
+      challengeSection.style.display = "none";
+      if (index === 1) {
+        var moreData = document.getElementById("toggleSignalButton");
+        var moreNarr = document.getElementById("txtcol");
+        moreData.style.display = "none";
+        moreNarr.style.display = "none";
+        toggleSignalVisibility();
+      }
+      if (index === 2) {
+        var moreTextButton = document.getElementById("toggleTextButton");
+        var moreData = document.getElementById("toggleSignalButton");
+        moreTextButton.style.display = "none";
+        moreData.style.display = "none";
+        toggleTextVisibility();
+      }
+    } else {
+      var clicks = document.getElementById("mistakes");
+      clicks.innerHTML = parseInt(clicks.innerHTML) +1;
+      alert("That was unfortunately false.");
+    }
+  }
+</script>
 </head>
 <body>
   <div class="container">
@@ -86,6 +190,7 @@
       With what probability do you think that there is a 1 behind the question mark? Please enter this probability into the text field below.
       </div>
     </div>
+    <div id="mistakes" class="hiddens">0</div>
     <div class="row">
       <div class="column">
         <table>
@@ -179,6 +284,27 @@
           </tbody>
         </table>
 
+      </div>
+    </div>
+    <div class="row" id="btnrow">
+      <div class="column">
+        <button type="button" id="toggleSignalButton" onclick="startChallenge(1)">See signal ({{ acc }} % accuracy)</button>
+        <p id="textDiv3" style="display:none;"> Signal: The ball is {{ signal }} (accuracy: {{ acc }} %)
+        </p>
+      </div>
+    </div>
+    <div class="row" id="challengeSection">
+      <h2>CAPTCHA: Please enter these letters in reverse order!</h2>
+      <p id="challengeText"></p>
+      <input type="text" id="inputField">
+      <button type = "button" id="submitButton">Check answer</button>
+    </div>
+    <div class="row" id="txtrow">
+      <div class="column" id="txtcol">
+        <div class="text">
+          <button type="button" id="toggleTextButton" onclick="startChallenge(2)">Second hint</button>
+          <p id="textDiv2" style="display: none;"> {{ keyword }}} </p>
+        </div>
       </div>
     </div>
     <div class="row">
