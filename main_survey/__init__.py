@@ -471,8 +471,8 @@ class Stage3_SS(Page):
             join=join,
             column_order=player.column_order,
             table=player.table,
-            signal = signal,
-            acc = acc,
+            signal=signal,
+            acc=acc,
             row_order=player.row_order,
             keyword_2=keyword_2,
             keyword_3=keyword_3,
@@ -726,7 +726,14 @@ class Quiz_betw_2(Page):
     def vars_for_template(player: Player):
         import time
         player.startquiz3time = int(time.time())
-        return dict()
+        if (player.participant.treatment % 3 == 1):
+            acc = 90
+            compl=10
+        else:
+            acc = 60
+            compl=40
+        return dict(acc=acc,
+                    compl=compl)
 
     @staticmethod
     def is_displayed(player: Player):
