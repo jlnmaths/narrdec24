@@ -327,7 +327,7 @@ class Stage2_H(Page):
             keyword = 'The main observation is 1 exactly half of the time.'
         if player.treatment == 1 or player.treatment == 4:
             exkeyword = 'The following always holds: If E'+str(plusloc)+' equals 1, the main observation also equals 1.'
-            keyword = 'The following always holds: If E'+str(minusloc)+' equals 1, the main observation also equals 0.'
+            keyword = 'The following always holds: If E'+str(minusloc)+' equals 1, the main observation equals 0.'
         if player.treatment == 2 or player.treatment == 5:
             exkeyword = 'The main observation is 1 exactly half of the time.'
             keyword = 'The following always holds: If E'+str(plusloc)+' equals 1, the main observation also equals 1.'
@@ -772,5 +772,5 @@ class Results(Page):
     pass
 
 
-#page_sequence = [Instructions, Captcha, Disqual, Instructions_rec_H, Instructions_payoff_A, Instructions_payoff_B, Quiz_A_H, Quiz_B_H, Stage1_H, Instr_betw_H, Stage2_H, Instr_betw_2, Quiz_betw_2, Stage3_H, Stage3_SS, Certainty, Hint_Constr]
-page_sequence = [Stage3_H, Stage3_SS]
+page_sequence = [Instructions, Captcha, Disqual, Instructions_rec_H, Instructions_payoff_A, Instructions_payoff_B, Quiz_A_H, Quiz_B_H, Stage1_H, Instr_betw_H, Stage2_H, Instr_betw_2, Quiz_betw_2, Stage3_H, Stage3_SS, Certainty, Hint_Constr]
+#page_sequence = [Stage1_H, Stage2_H, Stage3_H, Stage3_SS]
