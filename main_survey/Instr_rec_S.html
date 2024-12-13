@@ -21,8 +21,7 @@
   }
 </style>
 <p>
-  In this experiment you see datasets and make decisions based on these. The experiment has two phases, you will now receive the instructions for the first phase; the instructions for the second will be displayed before its start.
-  You make one decisions in each phase.
+  In this experiment you see datasets and make decisions based on these. You will make three independent decisions. By independent, we mean that you cannot make inferences about one decision from another.
 </p>
 <h4>
   Tables
@@ -109,17 +108,23 @@
 
 <p>
     <h4>Your task</h4>
-Your task is to assess whether there is a 0 or a 1 hidden behind the question mark (?). During the task you see the data table. In addition to this, you see a hint, which points out a possible relation in the data.
+    Your task is to assess whether there is a 0 or a 1 hidden behind the question mark (?). During the task you see the data table. In addition to this, you have the opportunity to reveal a message from another participant or an informative signal about the number behind the question mark (described in detail below). You can choose at most one of these options, and if you do, you will have to solve a Captcha (like at the start of this experiment). You do not have to choose either.
+    In addition to your assessment of the probability, we ask you to state the degree of certainty you have in your assessment after every round.
 </p>
 
 <p>
-<h4>Hints</h4>
-The hints point out a possible relation between main and the side observations. This could be indicative of how the number behind the question mark (?) was generated, but it is not necessarily so.
-For instance, the fact that the main observation (Y) is only 1 if the side observation E2 is also 1 in the visible part of the dataset could be because the main observation depends on the side observation E2. But it could also be due to chance.
-For each of the datasets, you are presented with a single hint.
+<h4>Messages</h4>
+A message is a short text from another participant that also assessed the probability that there is a 1 behind the question mark (?) in the dataset that is presented to you.
+Each message points out a possible relation between main and the side observations in the table and thus may be helpful to you in interpreting the dataset. Note, however, that the other participant did not have any more information about the number behind the question mark (?) than you.
 </p>
-
+<p>
+<h4>Signals</h4>
+The signals can help you assess whether there is a 0 or a 1 behind the question mark (?). If you choose to reveal the signal in one of the following rounds, you will see either a red ball or a blue ball. If the ball is red, this means that the number behind the question mark (?) is more likely a 0 than a 1. If the ball is blue, the number behind the question mark (?) is more likely a 1 than a 0.
+The signal is generated as follows: There are two urns. Urn zero contains {{ acc }} blue balls and {{ compl }} red balls, and urn one contains {{ compl }} blue balls and {{ acc }} red balls. If the number behind the question mark (?) is a 0, a ball is drawn from the red urn. Otherwise, a ball is drawn from the blue urn.
+</p>
 
 
 <button class="otree-btn-next btn btn-primary">Next</button>
 {{ endblock }}
+
+

@@ -55,21 +55,9 @@ class Player(BasePlayer):
                                    label="What is your highest level of education?")
     country = models.StringField(label="In which country do you live?")
 
-    study = models.StringField(label="Are you a student at university? If yes, what is your major?")
     politics =likertScale(
         'On a scale of 0 to 10, on which 0 means far left and 10 means far right, where do you place your political views?',
         '', '', 10)
-
-    simplicity_1 =likertScale(
-        'How strongly do you agree with the following statement? I prefer simple explanations (0 to 10, 0 = absolutely not, 10 = absolutely).',
-        '', '', 10)
-    simplicity_2 = models.StringField(label="Do you agree with the following statement? I am convinced that most people prefer simple explanations.",
-        choices=['Yes', 'No'])
-    dataverbal_1 =likertScale(
-        'How strongly do you agree with the following statement? I prefer data over verbal explanations (0 to 10, 0 = absolutely not, 10 = absolutely).',
-        '', '', 10)
-    dataverbal_2 = models.StringField(label="Do you agree with the following statement? I am convinced that most people prefer data over verbal explanations.",
-        choices=['Yes', 'No'])
     finishexptime = models.IntegerField(initial=0) #end of experiment
     startdemotime = models.IntegerField(initial=0) #start of demographics survey
 
@@ -92,10 +80,14 @@ class Player(BasePlayer):
         'How do you assess your willingness to share with others without expecting anything in return when it comes to charity? Please use a scale from 0 to 10, where 0 means you are "completely unwilling to share" and a 10 means you are" very willing to share”.',
         '', '', 10)
 
+    CR1 = models.IntegerField(label='If John can drink one barrel of water in 6 days, and Mary can drink one barrel of water in 12 days, how many days would it take them to drink one barrel of water together?')
+    CR2 = models.IntegerField(label='A man buys a pig for $60, sells it for $70, buys it back for $80, and sells it finally for $90. How much profit has he made, in dollars?')
+    CR3 = models.IntegerField(label='Jerry received both the 15th highest and the 15th lowest mark in the class. How many students are in the class?')
+
 # PAGES
 class Demographics(Page):
     form_model = 'player'
-    form_fields = ['yearOfBirth', 'male', 'country', 'education', 'study', 'politics']
+    form_fields = ['yearOfBirth', 'male', 'country', 'education', 'politics']
 
     def vars_for_template(player: Player):
         import time
@@ -104,7 +96,7 @@ class Demographics(Page):
 
 class Risk_Narratives(Page):
     form_model = 'player'
-    form_fields = ['RiskSurvey', 'HintHelpful', 'HintMisleading', 'simplicity_1', 'simplicity_2', 'dataverbal_1', 'dataverbal_2']
+    form_fields = ['RiskSurvey', 'HintHelpful', 'HintMisleading', 'CR1', 'CR2', 'CR3']
 
 class ResultsWaitPage(WaitPage):
     pass

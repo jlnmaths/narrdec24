@@ -9,7 +9,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = 'mental_models'
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 9
+    NUM_ROUNDS = 3
 
 
 class Subsession(BaseSubsession):
@@ -87,26 +87,30 @@ class Player(BasePlayer):
         choices=['True', 'False'])
     quiz2 = models.StringField(label="True or false? The events in the 7th row have definitely happened after the events in the first row.",
         choices=['True', 'False'])
-    quiz3 = models.StringField(label="True or false? The hints can be true, but do not have to be.",
+    quiz3 = models.StringField(label="True or false? The hints provide information about how the number behind the question mark (?) was generated.",
         choices=['True', 'False'])
     quiz4 = models.StringField(label="True or false? You have to assess the probability that a 1 or a 0 is hidden behind the question mark (?).",
         choices=['True', 'False'])
-    quiz5 = models.StringField(label="True or false? With a probability of 50%, you receive a payoff of $5.5 if there is a 1 hidden behind the question mark (?).",
+    quiz5 = models.StringField(label="True or false? With a probability of 50%, you receive a payoff of $5 if there is a 1 hidden behind the question mark (?).",
                                choices=['True', 'False'])
     quiz6 = models.StringField(label="True or false? If the signal is blue, this is evidence indicating that the number behind the question mark (?) is a 1.",
                                choices=['True', 'False'])
-
+    quiz7 = models.StringField(label="True or false? Messages provide information about how the number behind the question mark (?) was generated.",
+        choices=['True', 'False'])
 # functions
 def creating_session(subsession: Subsession):
     import itertools
     import random
     import numpy as np
-    treatments = itertools.cycle([0,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])
+    treatments = itertools.cycle([0,1, 2, 3, 4, 5, 6, 7])
     for player in subsession.get_players():
         player.participant.treatment = next(treatments)
-        player.treatment = np.floor(player.participant.treatment/3)
+        player.treatment = player.participant.treatment
         if subsession.round_number == 1:
-            player.participant.payround = random.randint(1,9)
+            if player.treatment % 4 < 2:
+                player.participant.payround = random.randint(1,2)
+            if player.treatment % 4 >= 2:
+                player.participant.payround = random.randint(1,3)
             player.participant.true_y = random.randint(0,1)
             present = np.random.permutation(3)
             player.participant.order = str(present[0]) + str(present[1]) + str(present[2])
@@ -123,10 +127,10 @@ def set_payoff(player: Player):
         else:
             prob = 1 - (player.assessment/100)*(player.assessment/100)
         player.prob = prob
-        pay = float((2.75*np.random.choice([0,1], 1, p=[1-prob, prob])[0])) +2.75 #assessment based payment
-        if player.treatment == 3 or player.treatment == 4 or player.treatment == 5:
+        pay = float((2.5*np.random.choice([0,1], 1, p=[1-prob, prob])[0])) +2.5 #assessment based payment
+        if player.treatment > 3:
             if np.random.choice([0,1], 1, p=[0.5,0.5])[0] == 0:
-                pay = float(2.75*player.participant.true_y) +2.75 #bonus based payment
+                pay = float(2.5*player.participant.true_y) +2.5 #bonus based payment
         player.payoff = pay
 
 
@@ -151,22 +155,27 @@ class Instructions(Page):
 class Instructions_rec_H(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.round_number == 1
-class Instr_betw_H(Page):
+        return player.subsession.round_number == 1 and player.treatment % 4 < 2
+
+class Instr_rec_ss(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.round_number == 4
+        return player.subsession.round_number == 1 and player.treatment % 4 > 1
 
 class Instructions_payoff_A(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.round_number == 1 and player.treatment < 3
+        return player.subsession.round_number == 1 and player.treatment < 4
 
 class Instructions_payoff_B(Page):
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.round_number == 1 and player.treatment > 2 and player.treatment < 6
+        return player.subsession.round_number == 1 and player.treatment > 3
 
+class Instr_betw_H(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.subsession.round_number == 2 and player.treatment % 4 < 2
 
 class Stage1_H(Page):
     form_model = 'player'
@@ -187,18 +196,11 @@ class Stage1_H(Page):
 
         # order of these arrays: d_balanced, d_pro, d_con, s_balanced, s_pro, s_con
         hb = np.array([1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 2])
-        nb_1 = np.array([[1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
-                         [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]])  # plus
-        nb_2 = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1], [0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1],
-                         [0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1]])  # minus
-        nb_3 = np.array([[1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1], [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1],
-                         [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1]])  # join
+        nb_1 = np.array([[1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1]])  # plus
+        nb_2 = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1]])  # minus
+        nb_3 = np.array([[1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1]])  # join
         hb = hb[o]  # hb is always the same
-        x = player.round_number - 1
-        if (x < 3):
-            y = present[x]
-        else:
-            y = present_2[x-3]  # this if stage 2 for deterministic!
+        y=0
         plus = nb_1[y][o]
         minus = nb_2[y][o]
         join = nb_3[y][o]
@@ -225,11 +227,9 @@ class Stage1_H(Page):
         player.column_order = str(np.array(['plus', 'minus', 'join'])[rand])  # 0: plus, 1: minus, 2: join
 
 
-        if player.treatment == 0 or player.treatment == 3:
+        if player.treatment == 1 or player.treatment == 5:
             keyword = 'The following always holds: If E'+str(plus)+' equals 1, the main observation also equals 1.'
-        if player.treatment == 1 or player.treatment == 4:
-            keyword = 'The following always holds: If E'+str(plus)+' equals 1, the main observation also equals 1.'
-        if player.treatment == 2 or player.treatment == 5:
+        if player.treatment == 0 or player.treatment == 4:
             keyword = 'The main observation is 1 in exactly half of the rows.'
 
 
@@ -269,7 +269,7 @@ class Stage1_H(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number < 4
+        return player.round_number == 1 and player.treatment % 4 < 2
 
 
 class Stage2_H(Page):
@@ -289,18 +289,11 @@ class Stage2_H(Page):
 
         # order of these arrays: d_balanced, d_pro, d_con, s_balanced, s_pro, s_con
         hb = np.array([1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 2])
-        nb_1 = np.array([[1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
-                         [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]])  # plus
-        nb_2 = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1], [0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1],
-                         [0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1]])  # minus
-        nb_3 = np.array([[1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1], [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1],
-                         [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1]])  # join
+        nb_1 = np.array([[1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1]])  # plus
+        nb_2 = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1]])  # minus
+        nb_3 = np.array([[1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1]])  # join
         hb = hb[o]  # hb is always the same
-        x = player.round_number - 1
-        if (x < 3):
-            y = present[x]
-        else:
-            y = present_2[x-3]  # this if stage 2 , same order
+        y=0
         plus = nb_1[y][o]
         minus = nb_2[y][o]
         join = nb_3[y][o]
@@ -322,13 +315,10 @@ class Stage2_H(Page):
         if y == 2:
             player.table = 'det_minus'
 
-        if player.treatment == 0 or player.treatment == 3:
+        if player.treatment == 1 or player.treatment == 5:
             exkeyword = 'The following always holds: If E'+str(plusloc)+' equals 1, the main observation also equals 1.'
             keyword = 'The main observation is 1 exactly half of the time.'
-        if player.treatment == 1 or player.treatment == 4:
-            exkeyword = 'The following always holds: If E'+str(plusloc)+' equals 1, the main observation also equals 1.'
-            keyword = 'The following always holds: If E'+str(minusloc)+' equals 1, the main observation equals 0.'
-        if player.treatment == 2 or player.treatment == 5:
+        if player.treatment == 0 or player.treatment == 4:
             exkeyword = 'The main observation is 1 exactly half of the time.'
             keyword = 'The following always holds: If E'+str(plusloc)+' equals 1, the main observation also equals 1.'
 
@@ -374,7 +364,7 @@ class Stage2_H(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.round_number > 3 and player.round_number < 7
+        return player.round_number == 2 and player.treatment % 4 < 2
 
 
 class Stage3_SS(Page):
@@ -396,9 +386,9 @@ class Stage3_SS(Page):
         else:
             ty = random.choice([0,1])
 
-        if (player.participant.treatment % 3 == 1):
+        if (player.participant.treatment %4 == 3):
             acc = 90
-        else:
+        if (player.participant.treatment % 4 == 2):
             acc = 60
 
         if ty == 0:
@@ -413,15 +403,12 @@ class Stage3_SS(Page):
 
         # order of these arrays: d_balanced, d_pro, d_con, s_balanced, s_pro, s_con
         hb = np.array([1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 2])
-        nb_1 = np.array([[0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1],
-                         [0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1],
-                         [1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1]]) #plus
-        nb_2 = np.array([[0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1],
-                         [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1],
-                         [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1]]) #minus
-        nb_3 = np.array([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]) #join
+        nb_1 = np.array([[1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+                         [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]])  # plus
+        nb_2 = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1], [0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+                         [0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1]])  # minus
+        nb_3 = np.array([[1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1], [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1],
+                         [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1]])  # join
         hb = hb[o]  # hb is always the same
         x = player.round_number - 1
         if (x < 3):
@@ -438,11 +425,11 @@ class Stage3_SS(Page):
 
 
         if y == 0:
-            player.table = 'stoch_balanced'
+            player.table = 'det_balanced'
         if y == 1:
-            player.table = 'stoch_plus'
+            player.table = 'det_plus'
         if y == 2:
-            player.table = 'stoch_minus'
+            player.table = 'det_minus'
 
         # randomize column order
 
@@ -507,7 +494,7 @@ class Stage3_SS(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return (player.round_number) > 6 and (player.participant.treatment % 3 == 2)
+        return (player.participant.treatment % 4 > 1)
 
 
 class Stage3_H(Page):
@@ -529,9 +516,9 @@ class Stage3_H(Page):
         else:
             ty = random.choice([0,1])
 
-        if (player.participant.treatment % 3 == 1):
+        if (player.participant.treatment % 4 == 3):
             acc = 90
-        else:
+        if (player.participant.treatment % 4 == 2):
             acc = 60
 
         if ty == 0:
@@ -545,15 +532,12 @@ class Stage3_H(Page):
 
         # order of these arrays: d_balanced, d_pro, d_con, s_balanced, s_pro, s_con
         hb = np.array([1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 2])
-        nb_1 = np.array([[0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1],
-                         [0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1],
-                         [1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1]]) #plus
-        nb_2 = np.array([[0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1],
-                         [0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1],
-                         [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1]]) #minus
-        nb_3 = np.array([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]) #join
+        nb_1 = np.array([[1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+                         [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1]])  # plus
+        nb_2 = np.array([[0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1], [0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+                         [0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1]])  # minus
+        nb_3 = np.array([[1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1], [1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1],
+                         [1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1]])  # join
         hb = hb[o]  # hb is always the same
         x = player.round_number - 1
         if (x < 3):
@@ -579,11 +563,11 @@ class Stage3_H(Page):
         joinloc = np.where(rand == 2)[0][0] + 1
 
         if y == 0:
-            player.table = 'stoch_balanced'
+            player.table = 'det_balanced'
         if y == 1:
-            player.table = 'stoch_plus'
+            player.table = 'det_plus'
         if y == 2:
-            player.table = 'stoch_minus'
+            player.table = 'det_minus'
 
         if player.round_number == 7:
             keyword = 'None of the rows has ones for all side observations except the last one.'
@@ -635,7 +619,7 @@ class Stage3_H(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return (player.round_number) > 6 and (player.participant.treatment % 3 < 2)
+        return player.participant.treatment % 4 >= 2
 
 
 
@@ -643,7 +627,11 @@ class Certainty(Page):
     form_model = 'player'
     form_fields = ['certainty']
     def is_displayed(player: Player):
-        return player.treatment < 6
+        if player.treatment % 4 < 2:
+            return player.round_number <= 2
+        else:
+            return player.round_number <= 3
+
 
 
 class Quiz_A_H(Page):
@@ -652,13 +640,13 @@ class Quiz_A_H(Page):
 
     @staticmethod
     def error_message(player: Player, values):
-        solutions = dict(quiz1='False', quiz2='False', quiz3='True', quiz4='True', quiz5='False')
+        solutions = dict(quiz1='False', quiz2='False', quiz3='False', quiz4='True', quiz5='False')
         if values != solutions:
             return "One or more responses were unfortunately wrong."
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.round_number == 1 and (player.treatment <= 2)
+        return player.subsession.round_number == 1 and (player.treatment < 2)
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -672,13 +660,13 @@ class Quiz_B_H(Page):
 
     @staticmethod
     def error_message(player: Player, values):
-        solutions = dict(quiz1='False', quiz2='False', quiz3='True', quiz4='True', quiz5='True')
+        solutions = dict(quiz1='False', quiz2='False', quiz3='False', quiz4='True', quiz5='True')
         if values != solutions:
             return "One or more responses were unfortunately wrong."
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.round_number == 1 and (player.treatment >= 3)
+        return player.subsession.round_number == 1 and (player.treatment >= 4) and player.treatment < 6
 
     @staticmethod
     def vars_for_template(player: Player):
@@ -690,43 +678,26 @@ class Hint_Constr(Page):
     form_model = 'player'
     form_fields = ['hint_constr']
     def is_displayed(player: Player):
-        return player.round_number == 6
+        if player.treatment % 4 < 2:
+            return player.round_number == 2
+        else:
+            return player.round_number == 3
 
-class Quiz_betw_H(Page):
+class Quiz_B_S(Page):
     form_model = 'player'
-    form_fields = ['quiz6']
+    form_fields = ['quiz1', 'quiz2', 'quiz4', 'quiz5', 'quiz6', 'quiz7']
 
     @staticmethod
     def error_message(player: Player, values):
-        solutions = dict(quiz6='True')
+        solutions = dict(quiz1='False', quiz2='False', quiz4='True', quiz5='True', quiz6='True', quiz7='False')
         if values != solutions:
             return "One or more responses were unfortunately wrong."
 
     @staticmethod
     def vars_for_template(player: Player):
         import time
-        player.startquiz2time = int(time.time())
-        return dict()
-
-    @staticmethod
-    def is_displayed(player: Player):
-        return player.subsession.round_number == 4
-
-class Quiz_betw_2(Page):
-    form_model = 'player'
-    form_fields = ['quiz6']
-
-    @staticmethod
-    def error_message(player: Player, values):
-        solutions = dict(quiz6='True')
-        if values != solutions:
-            return "One or more responses were unfortunately wrong."
-
-    @staticmethod
-    def vars_for_template(player: Player):
-        import time
-        player.startquiz3time = int(time.time())
-        if (player.participant.treatment % 3 == 1):
+        player.startquiztime = int(time.time())
+        if (player.participant.treatment % 4 == 3):
             acc = 90
             compl=10
         else:
@@ -737,9 +708,37 @@ class Quiz_betw_2(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.round_number == 7
+        return player.subsession.round_number == 1 and player.treatment > 5
 
-class Instr_betw_2(Page):
+
+class Quiz_A_S(Page):
+    form_model = 'player'
+    form_fields = ['quiz1', 'quiz2', 'quiz4', 'quiz5', 'quiz6', 'quiz7']
+
+    @staticmethod
+    def error_message(player: Player, values):
+        solutions = dict(quiz1='False', quiz2='False', quiz4='True', quiz5='False', quiz6='True', quiz7='False')
+        if values != solutions:
+            return "One or more responses were unfortunately wrong."
+
+    @staticmethod
+    def vars_for_template(player: Player):
+        import time
+        player.startquiztime = int(time.time())
+        if (player.participant.treatment % 4 == 3):
+            acc = 90
+            compl=10
+        else:
+            acc = 60
+            compl=40
+        return dict(acc=acc,
+                    compl=compl)
+
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.subsession.round_number == 1 and player.treatment > 1 and player.treatment < 4
+
+class Instr_rec_S(Page):
     @staticmethod
     def vars_for_template(player: Player):
         if (player.participant.treatment % 3 == 1):
@@ -754,7 +753,7 @@ class Instr_betw_2(Page):
 
     @staticmethod
     def is_displayed(player: Player):
-        return player.subsession.round_number == 7
+        return player.subsession.round_number == 1 and player.treatment % 4 > 1
 
 class Captcha(Page):
     @staticmethod
@@ -778,6 +777,6 @@ class Disqual(Page):
 class Results(Page):
     pass
 
+page_sequence = [Instructions, Disqual, Instructions_rec_H, Instr_rec_S, Instructions_payoff_A, Instructions_payoff_B, Quiz_A_H, Quiz_B_H, Quiz_A_S, Quiz_B_S, Stage1_H, Instr_betw_H, Stage2_H, Stage3_SS, Certainty, Hint_Constr]
 
-page_sequence = [Instructions, Captcha, Disqual, Instructions_rec_H, Instructions_payoff_A, Instructions_payoff_B, Quiz_A_H, Quiz_B_H, Stage1_H, Instr_betw_H, Stage2_H, Instr_betw_2, Quiz_betw_2, Stage3_H, Stage3_SS, Certainty, Hint_Constr]
-#page_sequence = [Stage1_H, Stage2_H, Stage3_H, Stage3_SS]
+#page_sequence = [Instructions, Captcha, Disqual, Instructions_rec_H, Instr_rec_S, Instructions_payoff_A, Instructions_payoff_B, Quiz_A_H, Quiz_B_H, Quiz_A_S, Quiz_B_S, Stage1_H, Instr_betw_H, Stage2_H, Stage3_SS, Certainty, Hint_Constr]
