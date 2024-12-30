@@ -228,9 +228,9 @@ class Stage1_H(Page):
 
 
         if player.treatment == 1 or player.treatment == 5:
-            keyword = 'The following always holds: If E'+str(plus)+' equals 1, the main observation also equals 1.'
+            keyword = 'The following always holds: If E'+str(plus)+' equals 1, Y also equals 1.'
         if player.treatment == 0 or player.treatment == 4:
-            keyword = 'The main observation is 1 in exactly half of the rows.'
+            keyword = 'Y is 1 in exactly half of the rows.'
 
 
         return dict(
@@ -395,7 +395,7 @@ class Stage3_SS(Page):
             p = [acc / 100, 1 - acc / 100]
         else:
             p = [1 - acc / 100, acc / 100]
-        signal = np.random.choice(['red', 'blue'], 1, p)[0]
+        signal = np.random.choice(['red (number more likely a 0)', 'blue (number more likely a 1)'], 1, p)[0]
 
 
         present = [int(player.ord[0]), int(player.ord[1]), int(player.ord[2])]
