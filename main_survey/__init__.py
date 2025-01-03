@@ -43,7 +43,7 @@ class Player(BasePlayer):
     certainty =likertScale(
         'On a scale of 0 to 10, on which 0 means "very uncertain" and 10 means "very certain", how certain are you that your assessment was correct?',
         '', '', 10)
-    certainty_sen = models.StringField(label="Would you have preferred not to send a hint?",
+    certainty_sen = models.StringField(label="Would you have preferred not to send a message?",
         choices=['Yes', 'No'])
     prob = models.FloatField()
     starttime = models.IntegerField(initial=0)
@@ -64,8 +64,8 @@ class Player(BasePlayer):
     n_selection = models.StringField(
         choices=['Hint 1 for the selected table', 'Hint 2 for the selected table'],
         widget=widgets.RadioSelect,
-        label= "Which hint do you want to send to the receiver?"
-    )
+        label= "Which message do you want to send to the receiver?")
+
     t_selection = models.StringField(
         choices=['Table 1', 'Table 2'],
         widget=widgets.RadioSelect,
@@ -87,7 +87,7 @@ class Player(BasePlayer):
         choices=['True', 'False'])
     quiz2 = models.StringField(label="True or false? The events in the 7th row have definitely happened after the events in the first row.",
         choices=['True', 'False'])
-    quiz3 = models.StringField(label="True or false? The hints provide information about how the number behind the question mark (?) was generated.",
+    quiz3 = models.StringField(label="True or false? The messages point out a pattern in the data.",
         choices=['True', 'False'])
     quiz4 = models.StringField(label="True or false? You have to assess the probability that a 1 or a 0 is hidden behind the question mark (?).",
         choices=['True', 'False'])
@@ -95,7 +95,7 @@ class Player(BasePlayer):
                                choices=['True', 'False'])
     quiz6 = models.StringField(label="True or false? If the signal is blue, this is evidence indicating that the number behind the question mark (?) is a 1.",
                                choices=['True', 'False'])
-    quiz7 = models.StringField(label="True or false? Messages provide information about how the number behind the question mark (?) was generated.",
+    quiz7 = models.StringField(label="True or false? The messages necessarily provide correct information about how the number behind the question mark (?) was generated.",
         choices=['True', 'False'])
 # functions
 def creating_session(subsession: Subsession):
@@ -685,11 +685,11 @@ class Hint_Constr(Page):
 
 class Quiz_B_S(Page):
     form_model = 'player'
-    form_fields = ['quiz1', 'quiz2', 'quiz4', 'quiz5', 'quiz6', 'quiz7']
+    form_fields = ['quiz1', 'quiz2', 'quiz3', 'quiz4', 'quiz5', 'quiz6', 'quiz7']
 
     @staticmethod
     def error_message(player: Player, values):
-        solutions = dict(quiz1='False', quiz2='False', quiz4='True', quiz5='True', quiz6='True', quiz7='False')
+        solutions = dict(quiz1='False', quiz2='False', quiz3='True', quiz4='True', quiz5='True', quiz6='True', quiz7='False')
         if values != solutions:
             return "One or more responses were unfortunately wrong."
 
@@ -699,12 +699,16 @@ class Quiz_B_S(Page):
         player.startquiztime = int(time.time())
         if (player.participant.treatment % 4 == 3):
             acc = 90
-            compl=10
+            compl = 10
+            image_path = "90.PNG"
         else:
             acc = 60
-            compl=40
+            compl = 40
+            image_path = "60.PNG"
+
         return dict(acc=acc,
-                    compl=compl)
+                    compl=compl,
+                    image_path=image_path)
 
     @staticmethod
     def is_displayed(player: Player):
@@ -713,11 +717,11 @@ class Quiz_B_S(Page):
 
 class Quiz_A_S(Page):
     form_model = 'player'
-    form_fields = ['quiz1', 'quiz2', 'quiz4', 'quiz5', 'quiz6', 'quiz7']
+    form_fields = ['quiz1', 'quiz2', 'quiz3', 'quiz4', 'quiz5', 'quiz6', 'quiz7']
 
     @staticmethod
     def error_message(player: Player, values):
-        solutions = dict(quiz1='False', quiz2='False', quiz4='True', quiz5='False', quiz6='True', quiz7='False')
+        solutions = dict(quiz1='False', quiz2='False', quiz3='True', quiz4='True', quiz5='False', quiz6='True', quiz7='False')
         if values != solutions:
             return "One or more responses were unfortunately wrong."
 
@@ -725,14 +729,19 @@ class Quiz_A_S(Page):
     def vars_for_template(player: Player):
         import time
         player.startquiztime = int(time.time())
+
         if (player.participant.treatment % 4 == 3):
             acc = 90
-            compl=10
+            compl = 10
+            image_path = "90.PNG"
         else:
             acc = 60
-            compl=40
+            compl = 40
+            image_path = "60.PNG"
+
         return dict(acc=acc,
-                    compl=compl)
+                    compl=compl,
+                    image_path=image_path)
 
     @staticmethod
     def is_displayed(player: Player):
@@ -741,15 +750,18 @@ class Quiz_A_S(Page):
 class Instr_rec_S(Page):
     @staticmethod
     def vars_for_template(player: Player):
-        if (player.participant.treatment % 3 == 1):
+        if (player.participant.treatment % 4 == 3):
             acc = 90
             compl = 10
+            image_path = "90.PNG"
         else:
             acc = 60
             compl = 40
+            image_path = "60.PNG"
 
         return dict(acc=acc,
-                    compl=compl)
+                    compl=compl,
+                    image_path = image_path)
 
     @staticmethod
     def is_displayed(player: Player):

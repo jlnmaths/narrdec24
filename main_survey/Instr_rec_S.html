@@ -19,6 +19,14 @@
     padding: 8px;
     text-align: left;
   }
+
+  .centered-image {
+    display: block;
+    margin: 20px auto;
+    width: 50%; /* Adjust the width to make the image smaller */
+    max-width: 300px; /* Ensures the image doesn't grow too large on larger screens */
+  }
+
 </style>
 <p>
   In this experiment you see datasets and make decisions based on these. You will make three independent decisions. By independent, we mean that you cannot make inferences about one decision from another.
@@ -120,9 +128,12 @@ Each message points out a possible pattern in the dataset and thus may be helpfu
 <p>
 <h4>Signals</h4>
 The signal can help you assess whether there is a 0 or a 1 behind the question mark (?). If you choose to reveal the signal in one of the following rounds, you will see either a red ball or a blue ball. If the ball is red, this means that the number behind the question mark (?) is more likely a 0 than a 1. If the ball is blue, the number behind the question mark (?) is more likely a 1 than a 0.
-The signal is generated as follows: There are two urns. Urn zero contains {{ acc }} blue balls and {{ compl }} red balls, and urn one contains {{ compl }} blue balls and {{ acc }} red balls. If the number behind the question mark (?) is a 0, a ball is drawn from the red urn. Otherwise, a ball is drawn from the blue urn.
+The signal is generated as follows: There are two urns like in the figure below. Urn zero contains {{ acc }} blue balls and {{ compl }} red balls, and urn one contains {{ compl }} blue balls and {{ acc }} red balls. If the number behind the question mark (?) is a 0, a ball is drawn from urn zero. Otherwise, a ball is drawn from the urn one.
 </p>
 
+<p>
+  <img class="centered-image" src="{{ static image_path }}"/>
+</p>
 
 <button class="otree-btn-next btn btn-primary">Next</button>
 {{ endblock }}

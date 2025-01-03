@@ -36,6 +36,29 @@
             overflow-y: auto; /* Enable vertical scrolling if content exceeds the max height */
             padding: 10px; /* Adjust padding as needed */
         }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  table tr:nth-last-child(2) {
+    border-bottom: 2px double black;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .centered-image {
+    display: block;
+    margin: 20px auto;
+    width: 50%; /* Adjust the width to make the image smaller */
+    max-width: 300px; /* Ensures the image doesn't grow too large on larger screens */
+  }
     </style>
 
     To proceed, confirm, by answering the questions below,that you have read the instructions carefully!
@@ -49,26 +72,144 @@
     <div id="popup" class="popup">
         <div class="popup-content">
 <p>
-    Dear participants,
+  In this experiment you see datasets and make decisions based on these. You will make three independent decisions. By independent, we mean that you cannot make inferences about one decision from another.
+</p>
+<h4>
+  Tables
+</h4>
+<p>
+  The datasets are presented in tables, see the example displayed below. The tables consist of 9 rows and 4 columns, see the example table below. Each cell contains either a 0 or a 1. In the first column you see 8 entries of the main observation (Y); in columns 2 to 4 you see 9 entries for each of the three side observations (E1, E2, and E3).
+  In the 9th row the main observation (Y) is missing but you can see the side observations (E1, E2, and E3).
 </p>
 <p>
-    This is the beginning of the third phase of the experiment.
+  Each row represents observations that were made simultaneously.
+  Please note that there is no temporal relationship between the different rows. It is therefore not true that the events that have led to the entries in the first row have necessarily happened before the events that have led to the entries in the 9th row.
 </p>
 <p>
-    In the following, you will again be asked to make three independent decisions. <b>You will be confronted with new datasets. </b>
+  There may or may not be a causal relationship between the main and the three side observations. Whether causal or not, the relationship between the observations is the same in each row.
 </p>
+<h5> Example table:</h5>
+<table>
+          <thead>
+            <tr>
+              <th>Y</th>
+              <th>E1</th>
+              <th>E2</th>
+              <th>E3</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <td><b style='color:red;'>?</b></td>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+
+
 <p>
-    This time, however, you have the opportunity to reveal additional hints or an informative signal about the number behind the question mark (described in detail below). You can choose at most one of these options for the small cost of solving a Captcha (like at the start of this experiment), and you do not have to choose either. You can of course state a different assessment than in phase 1.
-    In addition to your assessment of the probability, we again ask you to state the degree of certainty you have in your assessment after every round.
+    <h4>Your task</h4>
+    Your task is to assess whether there is a 0 or a 1 hidden behind the question mark (?). During the task you see the data table. In addition to this, you have the opportunity to reveal a message from another participant or a signal about the number behind the question mark (described in detail below). You can choose at most one of these options, and if you do, you will have to solve a Captcha (like at the start of this experiment). You do not have to choose either.
+    In addition to your assessment of the probability, we ask you to state the degree of certainty you have in your assessment after every round.
 </p>
+
 <p>
-     Reminder: At the end of the experiment, one of your decisions from the three phases will be chosen at random and your payoff will be calculated using the formula described at the beginning, such that it is always optimal to state your true assessment.
+<h4>Messages</h4>
+A message is a short text from another participant who also assessed the probability that there is a 1 behind the question mark (?) in the dataset that is presented to you. You can choose between three different messages.
+Each message points out a possible pattern in the dataset and thus may be helpful to you in interpreting the dataset. Note, however, that the other participant did not have more information about the number behind the question mark (?) than you.
 </p>
 <p>
 <h4>Signals</h4>
-The signals can help you assess whether there is a 0 or a 1 behind the question mark (?). If you choose to reveal the signal in one of the following rounds, you will see either a red ball or a blue ball. If the ball is red, this means that the number behind the question mark (?) is more likely a 0 than a 1. If the ball is blue, the number behind the question mark (?) is more likely a 1 than a 0.
-The signal is generated as follows: There are two urns. Urn zero contains {{ acc }} blue balls and {{ compl }} red balls, and urn one contains {{ compl }} blue balls and {{ acc }} red balls. If the number behind the question mark (?) is a 0, a ball is drawn from the red urn. Otherwise, a ball is drawn from the blue urn.
+The signal can help you assess whether there is a 0 or a 1 behind the question mark (?). If you choose to reveal the signal in one of the following rounds, you will see either a red ball or a blue ball. If the ball is red, this means that the number behind the question mark (?) is more likely a 0 than a 1. If the ball is blue, the number behind the question mark (?) is more likely a 1 than a 0.
+The signal is generated as follows: There are two urns like in the figure below. Urn zero contains {{ acc }} blue balls and {{ compl }} red balls, and urn one contains {{ compl }} blue balls and {{ acc }} red balls. If the number behind the question mark (?) is a 0, a ball is drawn from urn zero. Otherwise, a ball is drawn from the urn one.
 </p>
+
+<p>
+  <img class="centered-image" src="{{ static image_path }}"/>
+</p>
+            <h4>Payoff</h4>
+
+            <p>
+    There is either a 1 or a 0 behind the question mark (?). We will choose one of your independent decisions randomly after you have completed the experiment and calculate your payoff based on this decision round.
+</p>
+<p>
+    Your payoff depends either on whether there is a 1 behind the question mark (‘lottery group’) or on your assessment of the probability that a 1 is hidden behind the question mark (‘assessment group’). Whether you are in the lottery group or in the assessment group will be determined randomly and with equal probability.
+</p>
+<p>
+    If you are in the lottery group, you obtain $5 if there is a 1 behind the question mark (?) and $2.5 if there is a 0 behind the question mark (?).
+</p>
+<p>
+    If you are in the assessment group, your payoff depends on your assessment. Your payoff is between $2.5 and $5 and is calculated in such a way that you receive the maximal expected payoff if you state your true assessment of the probability.
+</p>
+
+<p>
+    <button  id="btn" type="button" onclick="toggleDataVisibility()">Show technical details regarding the payoff calculation.</button>
+</p>
+<div id="hid" class="hidden">
+    <p>
+        Details concerning your payoff:
+    </p>
+<p>
+If you are randomly assigned to the lottery group, you obtain $5 if there is a 1 behind the question mark (?) and $2.5 if there is a 0 behind the question mark (?).
+</p>
+<p>
+ If you are assigned to the assessment group instead, your payoff is calculated according to the following rule: Let q be your stated assessment of the probability that a 1 is hidden behind the question mark (?). After you have stated q, the true value behind the question mark (?) is used to determine your payoff. Should there in fact be a 1 hidden behind the question mark (?), you receive a payoff of $5 with a probability of 1-(1-q)*(1-q) and a payoff of $2.5 otherwise. Should there be a 0 hiding instead, you receive $5 with a probability of 1-q*q and $2.5 otherwise.
+</p>
+
+<p>
+    In addition to your assessment of the probability, we will ask you after every round to state how certain you are that your assessment is correct.
+</p>
+</div>
         </div>
         <button id="closePopupButton" type="button">Close</button>
     </div>
