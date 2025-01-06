@@ -38,7 +38,7 @@ def likertScale(label, low, high, n, blank = False):
     )
 
 class Player(BasePlayer):
-    assessment = models.IntegerField(min=0, max=100, label="What do you think is the probability that the main observation behind the question mark (?) is a 1?")
+    assessment = models.IntegerField(min=0, max=100, label="What do you think is the probability that the main observation (Y) behind the question mark (?) is a 1?")
     score = models.FloatField()
     certainty =likertScale(
         'On a scale of 0 to 10, on which 0 means "very uncertain" and 10 means "very certain", how certain are you that your assessment was correct?',
@@ -83,7 +83,7 @@ class Player(BasePlayer):
     isdisqualified = models.IntegerField(initial = 0)
     hinttype = models.IntegerField(initial = -1)
     hint_constr = models.LongStringField(label='Can you explain to us in one to two sentences, which characteristics of the data table you paid attention to in order to determine the probability and how you interpreted these?', blank=True)
-    quiz1 = models.StringField(label='True or false? The relationship between the main observation and the side observations is different from row to row.',
+    quiz1 = models.StringField(label='True or false? The relationship between the main observation (Y) and the side observations is different from row to row.',
         choices=['True', 'False'])
     quiz2 = models.StringField(label="True or false? The events in the 7th row have definitely happened after the events in the first row.",
         choices=['True', 'False'])
@@ -316,11 +316,11 @@ class Stage2_H(Page):
             player.table = 'det_minus'
 
         if player.treatment == 1 or player.treatment == 5:
-            exkeyword = 'The following always holds: If E'+str(plusloc)+' equals 1, the main observation also equals 1.'
-            keyword = 'The main observation is 1 exactly half of the time.'
+            exkeyword = 'The following always holds: If E'+str(plusloc)+' equals 1, Y also equals 1.'
+            keyword = 'The main observation (Y) is 1 exactly half of the time.'
         if player.treatment == 0 or player.treatment == 4:
-            exkeyword = 'The main observation is 1 exactly half of the time.'
-            keyword = 'The following always holds: If E'+str(plusloc)+' equals 1, the main observation also equals 1.'
+            exkeyword = 'The main observation (Y) is 1 exactly half of the time.'
+            keyword = 'The following always holds: If E'+str(plusloc)+' equals 1, Y also equals 1.'
 
 
 
@@ -640,7 +640,7 @@ class Quiz_A_H(Page):
 
     @staticmethod
     def error_message(player: Player, values):
-        solutions = dict(quiz1='False', quiz2='False', quiz3='False', quiz4='True', quiz5='False')
+        solutions = dict(quiz1='False', quiz2='False', quiz3='True', quiz4='True', quiz5='False')
         if values != solutions:
             return "One or more responses were unfortunately wrong."
 
@@ -660,7 +660,7 @@ class Quiz_B_H(Page):
 
     @staticmethod
     def error_message(player: Player, values):
-        solutions = dict(quiz1='False', quiz2='False', quiz3='False', quiz4='True', quiz5='True')
+        solutions = dict(quiz1='False', quiz2='False', quiz3='True', quiz4='True', quiz5='True')
         if values != solutions:
             return "One or more responses were unfortunately wrong."
 

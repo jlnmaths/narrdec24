@@ -63,11 +63,11 @@ class Player(BasePlayer):
 
 
     HintHelpful = likertScale(
-        'Did you think the hints were helpful? Please use a scale from 0 to 10, where a 0 means you found them "not helpful at all" and a 10 means you found them "very helpful".',
+        'Did you think the messages were helpful? Please use a scale from 0 to 10, where a 0 means you found them "not helpful at all" and a 10 means you found them "very helpful".',
         '', '', 10)
 
     HintMisleading = likertScale(
-        'Did you think the hints were misleading? Please use a scale from 0 to 10, where a 0 means you believe they were "not misleading at all" and a 10 means you believe they were "very misleading".',
+        'Did you think the messages were misleading? Please use a scale from 0 to 10, where a 0 means you believe they were "not misleading at all" and a 10 means you believe they were "very misleading".',
         '', '', 10)
 
     TimeSurvey = likertScale(
