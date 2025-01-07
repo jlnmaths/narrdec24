@@ -87,7 +87,7 @@ class Player(BasePlayer):
         choices=['True', 'False'])
     quiz2 = models.StringField(label="True or false? The events in the 7th row have definitely happened after the events in the first row.",
         choices=['True', 'False'])
-    quiz3 = models.StringField(label="True or false? The messages point out a pattern in the data.",
+    quiz3 = models.StringField(label="True or false? The messages point out a pattern in the visible dataste.",
         choices=['True', 'False'])
     quiz4 = models.StringField(label="True or false? You have to assess the probability that a 1 or a 0 is hidden behind the question mark (?).",
         choices=['True', 'False'])
@@ -698,13 +698,13 @@ class Quiz_B_S(Page):
         import time
         player.startquiztime = int(time.time())
         if (player.participant.treatment % 4 == 3):
-            acc = 90
-            compl = 10
-            image_path = "90.PNG"
+            acc = 9
+            compl = 1
+            image_path = "9.PNG"
         else:
-            acc = 60
-            compl = 40
-            image_path = "60.PNG"
+            acc = 6
+            compl = 4
+            image_path = "6.PNG"
 
         return dict(acc=acc,
                     compl=compl,
@@ -731,13 +731,13 @@ class Quiz_A_S(Page):
         player.startquiztime = int(time.time())
 
         if (player.participant.treatment % 4 == 3):
-            acc = 90
-            compl = 10
-            image_path = "90.PNG"
+            acc = 9
+            compl = 1
+            image_path = "9.PNG"
         else:
-            acc = 60
-            compl = 40
-            image_path = "60.PNG"
+            acc = 6
+            compl = 4
+            image_path = "6.PNG"
 
         return dict(acc=acc,
                     compl=compl,
@@ -751,13 +751,13 @@ class Instr_rec_S(Page):
     @staticmethod
     def vars_for_template(player: Player):
         if (player.participant.treatment % 4 == 3):
-            acc = 90
-            compl = 10
-            image_path = "90.PNG"
+            acc = 9
+            compl = 1
+            image_path = "9.PNG"
         else:
-            acc = 60
-            compl = 40
-            image_path = "60.PNG"
+            acc = 6
+            compl = 4
+            image_path = "6.PNG"
 
         return dict(acc=acc,
                     compl=compl,
