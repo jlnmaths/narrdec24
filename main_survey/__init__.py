@@ -87,7 +87,7 @@ class Player(BasePlayer):
         choices=['True', 'False'])
     quiz2 = models.StringField(label="True or false? The events in the 7th row have definitely happened after the events in the first row.",
         choices=['True', 'False'])
-    quiz3 = models.StringField(label="True or false? The messages point out a pattern in the visible dataset.",
+    quiz3 = models.StringField(label="True or false? The messages point out a pattern in the visible part of the dataset.",
         choices=['True', 'False'])
     quiz4 = models.StringField(label="True or false? You have to assess the probability that a 1 or a 0 is hidden behind the question mark (?).",
         choices=['True', 'False'])
