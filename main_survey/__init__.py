@@ -476,7 +476,7 @@ class Stage3_SS(Page):
             player.hinttype = 0
         if int(data) == 23:
             player.hinttime = int(time.time())
-            player.hinttype = 1
+            player.hinttype = 100
         if int(data) == 24:
             player.hinttime = int(time.time())
             player.hinttype = 50
@@ -484,7 +484,6 @@ class Stage3_SS(Page):
             player.signaldemandtime = int(time.time())
         if int(data) == 4:
             player.hintdemandtime = int(time.time())
-        # can just do more cases here!
 
     @staticmethod
     def before_next_page(player: Player, timeout_happened):
