@@ -317,9 +317,9 @@ class Stage2_H(Page):
 
         if player.treatment == 1 or player.treatment == 5:
             exkeyword = 'The following always holds: If E'+str(plusloc)+' equals 1, Y also equals 1.'
-            keyword = 'The main observation (Y) is 1 exactly half of the time.'
+            keyword = 'Y is 1 exactly in exactly half of the rows.'
         if player.treatment == 0 or player.treatment == 4:
-            exkeyword = 'The main observation (Y) is 1 exactly half of the time.'
+            exkeyword = 'Y is 1 exactly in exactly half of the rows.'
             keyword = 'The following always holds: If E'+str(plusloc)+' equals 1, Y also equals 1.'
 
 
