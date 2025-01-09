@@ -788,6 +788,5 @@ class Disqual(Page):
 class Results(Page):
     pass
 
-page_sequence = [Instructions, Disqual, Instructions_rec_H, Instr_rec_S, Instructions_payoff_A, Instructions_payoff_B, Quiz_A_H, Quiz_B_H, Quiz_A_S, Quiz_B_S, Stage1_H, Instr_betw_H, Stage2_H, Stage3_SS, Certainty, Hint_Constr]
 
-#page_sequence = [Instructions, Captcha, Disqual, Instructions_rec_H, Instr_rec_S, Instructions_payoff_A, Instructions_payoff_B, Quiz_A_H, Quiz_B_H, Quiz_A_S, Quiz_B_S, Stage1_H, Instr_betw_H, Stage2_H, Stage3_SS, Certainty, Hint_Constr]
+page_sequence = [Instructions, Captcha, Disqual, Instructions_rec_H, Instr_rec_S, Instructions_payoff_A, Instructions_payoff_B, Quiz_A_H, Quiz_B_H, Quiz_A_S, Quiz_B_S, Stage1_H, Instr_betw_H, Stage2_H, Stage3_SS, Certainty, Hint_Constr]
