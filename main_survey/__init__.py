@@ -102,7 +102,7 @@ def creating_session(subsession: Subsession):
     import itertools
     import random
     import numpy as np
-    treatments = itertools.cycle([0,1, 2, 3, 4, 5, 6, 7])
+    treatments = itertools.cycle([3, 6, 7])
     for player in subsession.get_players():
         player.participant.treatment = next(treatments)
         player.treatment = player.participant.treatment
